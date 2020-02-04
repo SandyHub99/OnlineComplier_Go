@@ -1,0 +1,86 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      enctype="multipart/form-data"
+      method="post"
+      id="b"
+    >
+      <input type="file" name="myFile" id="ar" />
+      <input type="submit" value="upload" id="upload"/>   
+  </form>
+  <div>
+    <span id="result"></span>
+  </div>
+  <script>
+
+
+$(document).ready(function () {
+
+$("#upload").click(function (event) {
+
+    //stop submit the form, we will post it manually.
+    event.preventDefault();
+
+    // Get form
+    var form = $('#b')[0];
+
+// Create an FormData object 
+    var data = new FormData(form);
+
+// If you want to add an extra field for the FormData
+    data.append("CustomField", "This is some extra data, testing");
+
+// disabled the submit button
+   // $("#btnSubmit").prop("disabled", true);
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "http://localhost:3000/upload",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+
+           $("#result").text(data);
+            console.log("SUCCESS : ", data);
+           // $("#btnSubmit").prop("disabled", false);
+
+        },
+        error: function (e) {
+
+           $("#result").text(e.responseText);
+            console.log("ERROR : ", e);
+            //$("#btnSubmit").prop("disabled", false);
+
+        }
+    });
+
+});
+
+});
+    // $(document).ready(function(){
+    //   $("#b").submit(function(e){
+    //     e.preventDefault();
+    //     console.log(document.getElementById("ar"));
+    //     // $.ajax({url: "http://localhost:3000/subscribe", type: "GET",
+    //     // data:{ su1: $('#s1').val(),su2: $('#s2').val(),su3: $('#s3').val(),su4: $('#s4').val(),su5: $('#s5').val()
+    //     //     },
+    //     //success: function(result){
+    //   //     alert(result);
+    //   //   }});
+    //   // });
+    // });
+    // });
+ </script>
+  </body>
+</html>
